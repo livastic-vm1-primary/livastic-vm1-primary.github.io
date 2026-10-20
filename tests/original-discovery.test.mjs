@@ -80,3 +80,26 @@ test('crawler root index retains correctly scoped canonical, sitemap and no fake
   assert.match(get('robots.txt'),/Sitemap: https:\/\/livastic-vm1-primary.github.io\/sitemap_index.xml/);
   assert.match(get('sitemap_index.xml'),/paperpilot-tools\/sitemap.xml/);
 });
+test('host-root agent guide links original distinct GET vs POST paid resources',()=>{
+ const llms=get('llms.txt');
+ assert.ok(llms.includes('POST https://vm5-openapi-x402.onrender.com/v1/csv-preflight'));
+ assert.ok(llms.includes('GET https://vm5-openapi-x402.onrender.com/v1/csv-report'));
+ assert.ok(llms.includes('GET https://vm5-openapi-x402.onrender.com/v1/ping'));
+ assert.ok(llms.includes('eip155:8453'));
+ assert.ok(llms.includes('0x833589fCD6eDb6E08f4C7C32D4f71b54bdA02913'));
+});
+test('root agent guide does not misrepresent a free HTTP402 as proof of paid buyer',()=>{
+ const llms=get('llms.txt');
+ assert.match(llms,/HTTP 402 indicates a payment CHALLENGE, not a successful purchase/);
+ assert.match(llms,/No independent buyer-owned/);
+ assert.match(llms,/produced ZERO new USDC revenue/);
+ assert.match(llms,/one human economic beneficiary/i);
+ assert.match(llms,/no wallet\s+signing/i);
+});
+test('root agent guide always links original source and free project before paid items',()=>{
+ const llms=get('llms.txt');
+ assert.ok(llms.indexOf('All original free tools') < llms.indexOf('Optional original ONE-owner'));
+ assert.ok(llms.includes('github.com/livastic-vm1-primary/paperpilot-tools'));
+ assert.ok(llms.includes('/paperpilot-tools/llms.txt'));
+ assert.ok(!llms.includes('PRIVATE_KEY'));
+});
