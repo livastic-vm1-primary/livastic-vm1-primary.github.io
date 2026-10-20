@@ -16,10 +16,11 @@ test('host robots permits crawling and lists both normal crawler-discovery sitem
  assert.ok(robots.includes('Sitemap: https://livastic-vm1-primary.github.io/paperpilot-tools/sitemap.xml'));
  assert.doesNotMatch(robots,/Disallow:/);
 });
-test('root sitemap only contains original canonical root homepage',()=>{
+test('root sitemap lists only canonical actual live root and original paid Nano bounty case study',()=>{
  assert.match(sitemap,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
- assert.equal((sitemap.match(/<loc>/g)||[]).length,1);
+ assert.equal((sitemap.match(/<loc>/g)||[]).length,2);
  assert.ok(sitemap.includes('https://livastic-vm1-primary.github.io/</loc>'));
+ assert.ok(sitemap.includes('https://livastic-vm1-primary.github.io/case-studies/pursekeeper-nano-lock-bounty-5xno.html</loc>'));
 });
 test('root sitemap index references two distinct unambiguous original owner site maps',()=>{
  assert.match(index,/<sitemapindex xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);

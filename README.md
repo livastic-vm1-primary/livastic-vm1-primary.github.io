@@ -46,3 +46,22 @@ USDC earnings or the profitability of an indicative pilot.
 ## Optional small verified-live HashN service listing (2026-10-21)
 
 [Original ONE economic owner HashN buyer-initiated Koinly ten-row 5-USDC mini-review](https://hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/koinly-csv-one-source-mapping-mini-review-5usdc.md) was posted through the original registered VM1 account (HashN POST201 and independent actual public GET200). Same free-first local tool remains free; this is ONE optional buyer-approved MANUAL small Koinly field map, candidate source-preserving CSV when possible, and row integrity issues for at most 10 synthetic/authorized sanitized rows. Native Circle Base8453 USDC5 is an indicative negotiated fee, not pre-approved checkout or escrow; always agree exact scope, privacy, data permissions, acceptance and cancellation/refund before any funds, and never send private CSV in a public HashN knock. Completely separate from larger, still hypothetical manual USD49 / up-to-50-row review. Real outside new customer purchases and USDC settlements from this link: **zero confirmed**.
+
+
+## One real paid, externally verified bounty case study (2026-10-21)
+
+[How an original Nano wallet-lock concurrency fix earned an externally confirmed
+5 XNO send](case-studies/pursekeeper-nano-lock-bounty-5xno.html):
+first-party merged pursekeeper/api PR #94, accepted sponsor source and exact
+ledger entry 441 on October 20, plus independent public Nano-block inspection.
+The recipient still had 5 XNO receivable but 0 XNO spendable when checked.
+This is ONE real independent software bounty and not a Koinly paid customer,
+five USDC, wallet RECEIVE, bank fiat payout, or guarantee of future work.
+A future reception of the same unique send is not a second new earning.
+The site contains no keys, wallet transaction code or third-party analytics;
+all public facts are supported by sponsor's issue/PR and chain evidence.
+
+Buyers who have their own separate, authorized, genuinely reproducible problem
+may use the case-study's voluntary email-draft inquiry for a written, scoped
+consulting discussion; no money, KYC or original financial records are
+collected by this static page.

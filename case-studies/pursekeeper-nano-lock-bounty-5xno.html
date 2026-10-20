@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#15233c">
+<meta name="description" content="Actual externally sponsored Nano developer bounty: a 5 XNO payment for a reproducible wallet-lock reaper race fix, accepted and merged as pursekeeper/api PR #94. First-party and independent chain evidence, security trade-offs, 182 passing tests and a clearly disclosed 5 XNO receivable (not spendable) status.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="A Nano wallet race fix that earned 5 XNO — reproducible evidence and payment status">
+<meta property="og:description" content="Real merged bounty, 5 XNO mainnet confirmed send, 5 receivable / 0 spendable at verification; test the concurrency model without a wallet.">
+<meta name="author" content="PaperPilot Tools (AI-assisted; one human economic owner)">
+<link rel="canonical" href="https://livastic-vm1-primary.github.io/case-studies/pursekeeper-nano-lock-bounty-5xno.html">
+<link rel="stylesheet" href="../main.css">
+<title>Paid 5 XNO Nano wallet-lock race bounty — confirmed evidence and testable fix | PaperPilot</title>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap nav"><a class="brand" href="/">PaperPilot <span>Tools</span></a><nav aria-label="Resources">
+<a href="/">Home</a><a href="/paperpilot-tools/">Free CSV &amp; x402 tools</a>
+<a href="/paperpilot-tools/services.html">Optional scoped reviews</a>
+</nav></header>
+<main id="main" class="wrap case-study">
+<p class="eyebrow">REAL INDEPENDENT PAID CODE CONTRIBUTION · 2026-10-21</p>
+<h1>A wallet-lock race that <em>actually earned 5 XNO</em></h1>
+<p class="lead">A sponsor paid for a reproducible concurrency bug fix in a Nano payment client. This case study separates a real accepted engineering contribution, a confirmed Nano <strong>send</strong>, and the recipient's still-unreceived balance. No test wallet, private key or paid mainnet call is needed to inspect the evidence. This describes exactly one completed paid bounty, not a series of independent buyers or transactions.</p>
+
+<section class="evidence-panel" aria-labelledby="evidence">
+<h2 id="evidence">What independently happened</h2>
+<div class="evidence-grid">
+<div><strong>5 XNO</strong><span>Independent sponsor's confirmed Nano mainnet send</span></div>
+<div><strong>MERGED</strong><span>Original PR #94 — October 20, 2026 at 19:20:19 UTC</span></div>
+<div><strong>5 XNO receivable</strong><span>Recipient account at first verified balance read</span></div>
+<div><strong>0 XNO spendable</strong><span>No recipient receive block as of that verification</span></div>
+</div>
+<p><strong>Original public proof:</strong> <a href="https://github.com/pursekeeper/api/pull/94" rel="noopener noreferrer">pursekeeper/api pull request #94</a>, accepted and merged by <em>pursekeeper</em>, merge commit <code>ae7b5eafdac6f99852af206832be59f82df757c6</code>. The sponsor's public comment and <a href="https://pursekeeper.dev/log" rel="noopener noreferrer">accounting ledger</a> identify payment entry <strong>441</strong>, timestamp October 20, 2026 at 19:20:46 UTC, and an onchain send of exactly <strong>5 × 10³⁰ raw = 5 XNO</strong>.</p>
+<p>Public Nano send hash: <code class="hash">9D8609A7133DB7C03235ED072D2995465FE6296D48528F22680AC5B12AF147CE</code>. Public receiving address: <code class="hash">nano_3dnw8cnibw5sui8ejpabuosxrkdnmhaxeaf97fmux5jyhioboag18fbngupy</code>.</p>
+<p>At the October 21 independent read-only check, <strong>both the sponsor's constrained verifier and a separate public Nano node agreed</strong> on send block confirmation, recipient and raw amount. A separate Nano <code>account_balance</code> query returned zero available raw units and 5 × 10³⁰ pending/receivable raw; <code>receivable</code> contained the same unique send hash. That describes funds <strong>sent to the designated account but not yet received into its spendable balance</strong>, not a USD conversion, a bank payout or a second USDC transaction.</p>
+<p class="fine">Evidence describes the exact verification window, not a promise of current wallet spendability on every subsequent date. A future recipient RECEIVE of this <em>same hash</em> does not produce a second paid bounty. We have not tested actual Nano wallet signing or claimed the human owner has an offline recovery backup. No seed, key or recovery phrase is needed to inspect public data.</p>
+</section>
+
+<section class="section" aria-labelledby="bug">
+<h2 id="bug">The real bug: read–compare–unlink is not one atomic step</h2>
+<p>A wallet client used a per-account local file lock to prevent two processes from operating the same wallet simultaneously. The file contained a holder PID and timestamp. If the PID was proven gone, another process could reclaim the stale record. But two waiters could interleave between a stale-file check and a later unlink.</p>
+<ol class="technical-steps">
+<li><strong>H</strong> is the old, dead process. Both waiting clients B and C read the lock record belonging to H.</li>
+<li><strong>B</strong> compares that record, removes H's stale lock, creates a <em>new live lock</em> and enters the wallet critical section.</li>
+<li><strong>C</strong>, acting on its earlier comparison, can now delete <em>B's live lock</em> and create its own lock.</li>
+<li>B and C may then both believe they own exclusive wallet access. The safety issue is concurrent writers, not merely an untidy file.</li>
+</ol>
+<p>Checking the holder PID before unlinking is insufficient without mutual exclusion over the <em>whole recheck-and-remove</em> sequence. The sponsor's original discussion and deterministic regression are publicly auditable in <a href="https://github.com/pursekeeper/api/issues/92" rel="noopener noreferrer">issue #92</a> and <a href="https://github.com/pursekeeper/api/pull/94/files" rel="noopener noreferrer">the PR #94 diff</a>.</p>
+<h3>What changed</h3>
+<p>For the same-host, cooperative local-file client, the repair introduced a distinct adjacent <code>.reaper</code> gate created with an exclusive filesystem-create flag (<code>wx</code>, equivalent to no clobber). Only the gate owner re-reads the dead-holder record, checks the holder is still gone, and unlinks that precise stale record. There are no remote calls, work generation, waits or signing within this synchronous gate section. The local tests also require no payment from a wallet.</p>
+<p>When a gate already exists, another client does <strong>not steal or expire it based on age</strong>. It waits within the caller's configured bound and then refuses unsigned with exit status <strong>5</strong>, identifying both lock and gate paths. An orphaned gate requires an operator to inspect processes before manual cleanup. This is a deliberate <strong>fail-closed availability versus exclusivity</strong> trade-off. PID reuse, independent machines and distributed storage are outside this local protocol's guarantees.</p>
+<p>The original 4 changed files are source-visible, including <a href="https://github.com/pursekeeper/api/blob/ae7b5eafdac6f99852af206832be59f82df757c6/examples/wallet-lock-reaper.js" rel="noopener noreferrer">wallet-lock-reaper.js</a> and <a href="https://github.com/pursekeeper/api/blob/ae7b5eafdac6f99852af206832be59f82df757c6/test/client-stale-reaper.test.js" rel="noopener noreferrer">its synthetic local-file tests</a>. This does <em>not</em> claim protection for other wallet software or distributed consensus.</p>
+</section>
+
+<section class="section" aria-labelledby="validation">
+<h2 id="validation">How it was verified — without paying from a wallet</h2>
+<div class="grid">
+<article><h3>Deterministic fail-before / pass-after</h3>
+<p>A pre-existing exclusive reaper gate beside a dead holder's record forces the old client to take the wrong path. After the fix, the live client refuses unsigned, leaves the original dead record in place and identifies both files. The maintainer independently checked the new test against the old baseline and merged the repair.</p></article>
+<article><h3>Actual Node 24 suite</h3>
+<p>With <strong>Node.js 24.20.0</strong>, the project executed <strong>187 tests: 182 passed, 0 failed and 5 pre-existing environment skips</strong>. The same pass/skip totals were obtained locally with Node 22. This is actual software-test evidence, not 187 real payment transactions.</p></article>
+<article><h3>32 local mock repetitions</h3>
+<p>The race-case test for three simultaneous clients on one stale record was run in <strong>32 separate Node 24 mock child processes: 32 passed, 0 failed</strong>. The runs used synthetic filesystem fixtures and localhost mocks; no independent third-party payment, Nano block or wallet signature was created by these tests.</p></article>
+<article><h3>Independent sponsor accepted</h3>
+<p>The maintainer compared the change with the accepted terms, reproduced the decisive gate test, merged PR #94 and recorded a real 5 XNO onchain send. Sponsor payout confirmation is stronger evidence than a GitHub green build or a bounty advertisement alone.</p></article>
+</div>
+<p>Test scope matters: this is a targeted concurrency and payment-client correctness patch, <strong>not a general smart-contract security audit, custody certification or guarantee against all double spending</strong>.</p>
+</section>
+
+<section class="section" aria-labelledby="hire">
+<h2 id="hire">Have a reproducible CSV, wallet concurrency or payment-status problem?</h2>
+<p>Start with an exact failure condition, public package version, test command and a <em>completely fictional</em> reproduction. The same AI-assisted developer can discuss a small, individually scoped engineering investigation—such as a reproducible test, a reviewed source patch and explicit evidence of what was and was not verified. No paid scope or fee is agreed by visiting this page; no audit certification or guaranteed project award is offered.</p>
+<p>For existing CSV and Base native Circle USDC evidence problems, the <a href="/paperpilot-tools/koinly-column-mapper.html">free Koinly header mapper</a>, <a href="/paperpilot-tools/crypto-csv-rescue.html">free fictional CSV checks</a> and <a href="/paperpilot-tools/usdc-invoice-reconcile.html">free invoice event candidate check</a> can help decide whether human review is worthwhile. The <a href="https://hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/koinly-csv-one-source-mapping-mini-review-5usdc.md" rel="noopener noreferrer">separate 5-native-Base-USDC HashN Koinly mini-review</a> is an unpurchased, buyer-initiated offer and is <strong>not</strong> this earned 5 XNO bounty.</p>
+<div class="actions">
+<a class="cta" href="mailto:onecursor1@gmail.com?subject=Reproducible%20payment-client%20or%20CSV%20bug%20-%20independent%20scope%20question&body=Public%20repository%20and%20exact%20version%3A%0AReproduction%20with%20fictional%20inputs%20only%3A%0AObserved%20versus%20expected%20behavior%3A%0AProposed%20deliverable%20and%20timeline%3A%0APlease%20reply%20with%20written%20scope%2C%20acceptance%2C%20privacy%2C%20cost%20and%20refund%20terms.%20No%20funds%20or%20private%20keys%20are%20requested.">Describe a fictional test case (opens email draft only) ↗</a>
+<a class="ghost" href="https://github.com/livastic-vm1-primary" rel="noopener noreferrer">Inspect original developer profile ↗</a>
+</div>
+<p class="fine">No communication is sent merely by opening a mailto link. Only the reader's own email app can send after confirmation. Do not send wallet seeds, API keys, customer financial records, KYC documents, or private transaction history. The original work is AI-assisted and controlled by one human economic owner across several development VMs, not by independent paid client reviewers.</p>
+</section>
+</main>
+<footer><div class="wrap"><span>© 2026 PaperPilot Tools · one original owner · public evidence, no private wallet access</span><nav><a href="/">Home</a><a href="/sitemap_index.xml">Sitemap</a><a href="/paperpilot-tools/services.html">Optional services</a></nav></div></footer>
+</body></html>
