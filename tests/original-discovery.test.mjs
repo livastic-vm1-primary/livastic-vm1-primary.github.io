@@ -103,3 +103,19 @@ test('root agent guide always links original source and free project before paid
  assert.ok(llms.includes('/paperpilot-tools/llms.txt'));
  assert.ok(!llms.includes('PRIVATE_KEY'));
 });
+
+test('original user root adds real 5 native Circle USDC small Koinly buyer enquiry without claiming payment',()=>{
+  const slug='https://hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/koinly-csv-one-source-mapping-mini-review-5usdc.md';
+  assert.ok(page.includes(slug));
+  assert.match(page,/Optional 5 native Circle Base USDC \/ 10-row HashN manual mini-review/);
+  assert.match(page,/not proof of escrow, paid client or Koinly acceptance/);
+  assert.match(page,/buyer-initiated/);
+  assert.match(page,/<strong>not an automatic purchase<\/strong>/);
+});
+test('original root agent discovery keeps the first-party 5USDC seller separate from zero buyers and larger $49 scope',()=>{
+  const txt=get('llms.txt');
+  assert.ok(txt.includes('https://hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/koinly-csv-one-source-mapping-mini-review-5usdc.md'));
+  assert.match(txt,/NO confirmed independent buyers, no payment/);
+  assert.match(txt,/up-to-50-row USD49 scope/);
+  assert.match(txt,/free local tools/);
+});

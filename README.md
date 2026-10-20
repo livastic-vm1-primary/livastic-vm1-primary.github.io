@@ -42,3 +42,7 @@ anti-spam confirmation; that synthetic event was not a buyer sale.
 This improvement does not establish site visitors, Koinly vendor
 acceptance, an actual paid client, external user feedback, a search index,
 USDC earnings or the profitability of an indicative pilot.
+
+## Optional small verified-live HashN service listing (2026-10-21)
+
+[Original ONE economic owner HashN buyer-initiated Koinly ten-row 5-USDC mini-review](https://hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/koinly-csv-one-source-mapping-mini-review-5usdc.md) was posted through the original registered VM1 account (HashN POST201 and independent actual public GET200). Same free-first local tool remains free; this is ONE optional buyer-approved MANUAL small Koinly field map, candidate source-preserving CSV when possible, and row integrity issues for at most 10 synthetic/authorized sanitized rows. Native Circle Base8453 USDC5 is an indicative negotiated fee, not pre-approved checkout or escrow; always agree exact scope, privacy, data permissions, acceptance and cancellation/refund before any funds, and never send private CSV in a public HashN knock. Completely separate from larger, still hypothetical manual USD49 / up-to-50-row review. Real outside new customer purchases and USDC settlements from this link: **zero confirmed**.
