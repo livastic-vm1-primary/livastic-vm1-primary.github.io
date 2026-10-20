@@ -50,3 +50,33 @@ test('index/robot/map cannot expose secrets, codes, wallet or actual payment',()
   assert.doesNotMatch(body,/PAYMENT-SIGNATURE|sk_[a-z0-9]+|seedphrase|privateKey|password/);
  }
 });
+
+test('Koinly-specific free help actually reaches an existing current distinct tool and separate checker',()=>{
+  assert.match(page,/Koinly CSV column mapping/);
+  assert.match(page,/href="\/paperpilot-tools\/koinly-column-mapper.html"/);
+  assert.match(page,/href="https:\/\/livastic-vm3-primary-tmp-260920.github.io\/crypto-csv-rescue\/koinly-preflight\/"/);
+  assert.match(page,/not.*proof of Koinly acceptance or tax correctness/);
+  assert.match(page,/supported export/);
+});
+test('primary customer quote action is a user-owned email DRAFT, not a form payment or telemetry event',()=>{
+  const link=page.match(/href="(mailto:onecursor1@gmail.com\?[^"]+)"/)?.[1];
+  assert.ok(link);
+  const u=new URL(link);
+  assert.equal(u.protocol,'mailto:');
+  assert.equal(u.pathname,'onecursor1@gmail.com');
+  assert.match(u.searchParams.get('subject'),/Crypto CSV Rescue or USDC invoice pilot/);
+  const body=u.searchParams.get('body');
+  assert.match(body,/Public column headers or problem category/);
+  assert.match(body,/no-payment enquiry/);
+  assert.doesNotMatch(body,/0x[a-f0-9]{40}|private key|recovery phrase/i);
+  assert.match(page,/nothing is transmitted until you choose Send/);
+  assert.match(page,/Optional third-party-consent form/);
+  assert.match(page,/may require an anti-spam check/);
+  assert.match(page,/not a fixed checkout/);
+});
+test('crawler root index retains correctly scoped canonical, sitemap and no fake payment assertions',()=>{
+  assert.match(page,/href="https:\/\/github.com\/livastic-vm1-primary\/paperpilot-tools"/);
+  assert.doesNotMatch(page,/\b(fetch|XMLHttpRequest|localStorage|sessionStorage|window.ethereum|PAYMENT-SIGNATURE)\b/);
+  assert.match(get('robots.txt'),/Sitemap: https:\/\/livastic-vm1-primary.github.io\/sitemap_index.xml/);
+  assert.match(get('sitemap_index.xml'),/paperpilot-tools\/sitemap.xml/);
+});

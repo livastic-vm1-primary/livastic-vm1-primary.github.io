@@ -24,3 +24,21 @@ created, submitted or modified by this static metadata site. One human
 beneficial owner controls all relevant development VMs, not four users.
 Historical genuine outsider native Base Circle USDC gross1.020000 already
 booked once and does not change because of this discovery deployment.
+
+## Original single-owner customer contact clarity, 2026-10-21
+
+The new root now points directly to the already shipped [Koinly manual
+column mapper](https://livastic-vm1-primary.github.io/paperpilot-tools/koinly-column-mapper.html)
+and the complementary SAME-owner VM3 format preflight; no additional
+frontend product or paid accounts were created.
+
+Original proposed US$49 authorized up-to-50-row CSV or USDC audit uses a
+customer-controlled **mailto draft** as the most direct first action.
+No form, web token, wallet, affiliate link, tax filing or automatic payment
+occurs on the root. The optional third-party consent form remains separately
+available but a prior ONE owner-internal QA form did not complete its
+anti-spam confirmation; that synthetic event was not a buyer sale.
+
+This improvement does not establish site visitors, Koinly vendor
+acceptance, an actual paid client, external user feedback, a search index,
+USDC earnings or the profitability of an indicative pilot.
