@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Explicit host-root crawler map for the original GitHub Pages user site.
+Sitemap: https://livastic-vm1-primary.github.io/sitemap_index.xml
+Sitemap: https://livastic-vm1-primary.github.io/paperpilot-tools/sitemap.xml
