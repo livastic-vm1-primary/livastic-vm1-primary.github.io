@@ -65,3 +65,27 @@ Buyers who have their own separate, authorized, genuinely reproducible problem
 may use the case-study's voluntary email-draft inquiry for a written, scoped
 consulting discussion; no money, KYC or original financial records are
 collected by this static page.
+
+## IndexNow host-root verification (October 21, 2026)
+
+The pre-existing original PaperPilot subpath project already served one public
+IndexNow key within /paperpilot-tools/. This repository now serves the SAME
+intentionally public 32-hex key at the hostname root as a static file
+c4a1a4fac4d5fafce82f0f21d45095bb.txt, covering genuine root-host
+Pages articles in /case-studies/ and the original /paperpilot-tools/ path.
+This does not give any buyer access to private credentials, bank, GitHub
+account or wallet.
+
+Our separately confirmed first-party Pages route
+/case-studies/pursekeeper-nano-lock-bounty-5xno.html documents
+Pursekeeper's one already booked independent Nano bounty (5 XNO confirmed
+sender block, receivable5/available0 at original check). New IndexNow
+submission should occur at most once and only after this root key actually
+appears at HTTP200 and with the genuine article URL at the official endpoint.
+Accepted URL submission is not a promise of Google indexing, Bing indexing,
+site traffic, bought services or additional income. Avoid repeat submissions,
+automated resubmissions or fabricated audience. This public key is a
+crawler-verification file and is never an EVM wallet or recovery phrase.
+
+No change to original paid 5-native-Base-Circle-USDC HashN mini offer,
+consented email/form workflows, bank transfers or Nano private signer.
