@@ -89,3 +89,5 @@ crawler-verification file and is never an EVM wallet or recovery phrase.
 
 No change to original paid 5-native-Base-Circle-USDC HashN mini offer,
 consented email/form workflows, bank transfers or Nano private signer.
+
+- Original bounded optional Nano payment-client local race regression review (5 native Base USDC after an agreed HashN deal and accepted work, zero new buyers): https://api.hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/nano-wallet-lock-race-regression-qa-5usdc.md. This is a different unpurchased service from the one already-paid external 5 XNO PR #94.

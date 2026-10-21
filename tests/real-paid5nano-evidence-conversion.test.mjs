@@ -89,9 +89,34 @@ test('crawler sitemap links new original article exactly once and excludes sensi
  assert.ok(bot.includes('Sitemap: https://livastic-vm1-primary.github.io/sitemap_index.xml'));
  assert.ok(llms.includes(title));
  assert.match(llms,/5 XNO available/);
+ assert.match(llms,/zero pending on 2026-10-21/);
+ assert.doesNotMatch(llms,/0 XNO available|NOT.*a receive block/);
  for(const item of [page,root,map,llms]){
   assert.doesNotMatch(item,/privateSeed|privateKey|scrypt_password|keystore\.json|local-key|api_token|BEGIN PRIVATE KEY/);
  }
+});
+test('new bounded Nano-concurrency buyer inquiry links real existing HashN listing once, but never asserts sale',()=>{
+ const buyer='https://api.hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/nano-wallet-lock-race-regression-qa-5usdc.md';
+ const readme=get('README.md');
+ for (const source of [page,root,readme]) assert.ok(source.includes(buyer),'missing link on original buyer-facing source');
+ assert.equal((page.match(/nano-wallet-lock-race-regression-qa-5usdc.md/g)||[]).length,1);
+ assert.equal((root.match(/nano-wallet-lock-race-regression-qa-5usdc.md/g)||[]).length,1);
+ assert.match(page,/5.000000 native Circle Base USDC/);
+ assert.match(page,/at most 200 lines/);
+ assert.match(page,/runnable three-case synthetic Node test/);
+ assert.match(page,/Payment is only on a separate buyer-seller agreement and accepted work/);
+ assert.match(page,/zero independent customer purchases so far/);
+ assert.match(root,/no instant purchase/);
+ assert.doesNotMatch(page,/confirmed new sales|first new paying customer|XNO converted into USDC|wallet is backed up/);
+});
+test('registered consulting offering is separate from genuine past bounty payout and general private key limits',()=>{
+ const buyer='https://api.hashn.com/store/886ed287-aaca-434b-9f27-560a50bfbbb6/listings/nano-wallet-lock-race-regression-qa-5usdc.md';
+ const llms=get('llms.txt');
+ assert.ok(llms.includes(buyer));
+ assert.match(llms,/an offer is NOT a new client payment/);
+ assert.match(page,/A prior sponsor-paid bounty validates only our specific published PR/);
+ assert.match(page,/no automatic checkout|No automatic checkout/);
+ assert.doesNotMatch(page,/<script\b|<input\b|onclick=|fetch\(/i);
 });
 test('only this one original Nano grant is attributed in public, not doubled on a later receive',()=>{
  assert.equal((page.match(new RegExp(paymentHash,'g'))||[]).length,1);
