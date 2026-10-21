@@ -2,10 +2,10 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#15233c">
-<meta name="description" content="Actual externally sponsored Nano developer bounty: a 5 XNO payment for a reproducible wallet-lock reaper race fix, accepted and merged as pursekeeper/api PR #94. First-party and independent chain evidence, security trade-offs, 182 passing tests and a clearly disclosed 5 XNO receivable (not spendable) status.">
+<meta name="description" content="Actual externally sponsored Nano developer bounty: a 5 XNO payment for a reproducible wallet-lock reaper race fix, accepted and merged as pursekeeper/api PR #94. First-party and independent chain evidence, security trade-offs, 182 passing tests and a clearly disclosed 5 XNO confirmed received on Nano mainnet (not new income) status.">
 <meta name="robots" content="index,follow">
 <meta property="og:title" content="A Nano wallet race fix that earned 5 XNO — reproducible evidence and payment status">
-<meta property="og:description" content="Real merged bounty, 5 XNO mainnet confirmed send, 5 receivable / 0 spendable at verification; test the concurrency model without a wallet.">
+<meta property="og:description" content="Real merged bounty, 5 XNO mainnet confirmed send, 5 XNO received / 0 pending at the latest Oct 21 verified balance read; test the concurrency model without a wallet.">
 <meta name="author" content="PaperPilot Tools (AI-assisted; one human economic owner)">
 <link rel="canonical" href="https://livastic-vm1-primary.github.io/case-studies/pursekeeper-nano-lock-bounty-5xno.html">
 <link rel="stylesheet" href="../main.css">
@@ -19,20 +19,21 @@
 <main id="main" class="wrap case-study">
 <p class="eyebrow">REAL INDEPENDENT PAID CODE CONTRIBUTION · 2026-10-21</p>
 <h1>A wallet-lock race that <em>actually earned 5 XNO</em></h1>
-<p class="lead">A sponsor paid for a reproducible concurrency bug fix in a Nano payment client. This case study separates a real accepted engineering contribution, a confirmed Nano <strong>send</strong>, and the recipient's still-unreceived balance. No test wallet, private key or paid mainnet call is needed to inspect the evidence. This describes exactly one completed paid bounty, not a series of independent buyers or transactions.</p>
+<p class="lead">A sponsor paid for a reproducible concurrency bug fix in a Nano payment client. This case study separates a real accepted engineering contribution, a confirmed Nano <strong>send</strong>, and the receiver's subsequently confirmed Nano receive block and 5 XNO available on-chain. No test wallet, private key or paid mainnet call is needed to inspect the evidence. This describes exactly one completed paid bounty, not a series of independent buyers or transactions.</p>
 
 <section class="evidence-panel" aria-labelledby="evidence">
 <h2 id="evidence">What independently happened</h2>
 <div class="evidence-grid">
 <div><strong>5 XNO</strong><span>Independent sponsor's confirmed Nano mainnet send</span></div>
 <div><strong>MERGED</strong><span>Original PR #94 — October 20, 2026 at 19:20:19 UTC</span></div>
-<div><strong>5 XNO receivable</strong><span>Recipient account at first verified balance read</span></div>
-<div><strong>0 XNO spendable</strong><span>No recipient receive block as of that verification</span></div>
+<div><strong>5 XNO available</strong><span>Recipient account after independently confirmed Nano RECEIVE</span></div>
+<div><strong>0 XNO pending</strong><span>Original 5 XNO sponsor payment received exactly once</span></div>
 </div>
 <p><strong>Original public proof:</strong> <a href="https://github.com/pursekeeper/api/pull/94" rel="noopener noreferrer">pursekeeper/api pull request #94</a>, accepted and merged by <em>pursekeeper</em>, merge commit <code>ae7b5eafdac6f99852af206832be59f82df757c6</code>. The sponsor's public comment and <a href="https://pursekeeper.dev/log" rel="noopener noreferrer">accounting ledger</a> identify payment entry <strong>441</strong>, timestamp October 20, 2026 at 19:20:46 UTC, and an onchain send of exactly <strong>5 × 10³⁰ raw = 5 XNO</strong>.</p>
 <p>Public Nano send hash: <code class="hash">9D8609A7133DB7C03235ED072D2995465FE6296D48528F22680AC5B12AF147CE</code>. Public receiving address: <code class="hash">nano_3dnw8cnibw5sui8ejpabuosxrkdnmhaxeaf97fmux5jyhioboag18fbngupy</code>.</p>
-<p>At the October 21 independent read-only check, <strong>both the sponsor's constrained verifier and a separate public Nano node agreed</strong> on send block confirmation, recipient and raw amount. A separate Nano <code>account_balance</code> query returned zero available raw units and 5 × 10³⁰ pending/receivable raw; <code>receivable</code> contained the same unique send hash. That describes funds <strong>sent to the designated account but not yet received into its spendable balance</strong>, not a USD conversion, a bank payout or a second USDC transaction.</p>
-<p class="fine">Evidence describes the exact verification window, not a promise of current wallet spendability on every subsequent date. A future recipient RECEIVE of this <em>same hash</em> does not produce a second paid bounty. We have not tested actual Nano wallet signing or claimed the human owner has an offline recovery backup. No seed, key or recovery phrase is needed to inspect public data.</p>
+<p><strong>Updated October 21, 2026 at 00:51 UTC:</strong> the original recipient published one genuine mainnet Nano <strong>RECEIVE</strong> block against the sponsor's same 5 XNO SEND. Independent read-only public RPC checks verified both blocks confirmed, the first/only account-chain receive, its exact linked send hash, and the account's confirmed balance of <strong>5 × 10³⁰ raw = 5 XNO available</strong> with <strong>0 XNO pending/receivable</strong>. This supersedes the earlier zero-available/five-receivable snapshot; it is <strong>not a second paid bounty, a USDC receipt, a USD conversion or a bank payout</strong>.</p>
+<p>Public recipient RECEIVE block hash: <code class="hash">A58B4E6E4A561C03EFA18BAEAE1A66D82C913396506501A2A7702DC6D3589111</code>. Anyone can compare the original public Nano SEND and this RECEIVE using <code>block_info</code>, <code>account_info</code>, <code>account_balance</code>, <code>receivable</code> and <code>account_history</code> against a public mainnet Nano RPC. No signing credentials are needed to verify blockchain history.</p>
+<p class="fine">The onchain balance is verified available <em>at the timestamp above</em>; this alone does not prove long-term custody, actual ability to move assets after key loss, an offline recovery backup, a fiat withdrawal or future balance. A single Nano receive block has already been signed and confirmed, but <strong>no SEND from this recipient wallet</strong> was made to complete the receive, no network fee was charged, and the human owner's offline signer backup remains <strong>unverified</strong>. The previously confirmed sponsor SEND is still exactly one earned payment; receiving it later does <strong>not</strong> create a second paid bounty. Never share or publish a seed, key, keystore or recovery phrase.</p>
 </section>
 
 <section class="section" aria-labelledby="bug">

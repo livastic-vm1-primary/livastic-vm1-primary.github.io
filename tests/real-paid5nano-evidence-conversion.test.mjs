@@ -11,6 +11,7 @@ const llms=get('llms.txt');
 const title='https://livastic-vm1-primary.github.io/case-studies/pursekeeper-nano-lock-bounty-5xno.html';
 const paymentHash='9D8609A7133DB7C03235ED072D2995465FE6296D48528F22680AC5B12AF147CE';
 const payee='nano_3dnw8cnibw5sui8ejpabuosxrkdnmhaxeaf97fmux5jyhioboag18fbngupy';
+const receiveHash='A58B4E6E4A561C03EFA18BAEAE1A66D82C913396506501A2A7702DC6D3589111';
 
 test('published case-study is a static canonical public page, original owner, accessible on mobiles',()=>{
  assert.match(page,/<!doctype html>/);
@@ -35,14 +36,15 @@ test('record is an actual sponsor-merged original PR and exact one independent p
  assert.ok(page.includes('https://pursekeeper.dev/log'));
 });
 test('asset accounting explicitly separates new independent bounty from wallet spendability and USD',()=>{
- assert.match(page,/5 XNO receivable/);
- assert.match(page,/0 XNO spendable/);
- assert.match(page,/0 XNO available|zero available raw units/);
- assert.match(page,/future recipient RECEIVE/);
- assert.match(page,/does not produce a second paid bounty/);
+ assert.match(page,/5 XNO available/);
+ assert.match(page,/0 XNO pending/);
+ assert.match(page,/5 XNO available/);
+ assert.match(page,/recipient RECEIVE block hash/);
+ assert.match(page,/not<\/strong> create a second paid bounty/);
  assert.match(page,/not<\/strong> this earned 5 XNO bounty/);
- assert.match(page,/not a USD conversion, a bank payout or a second USDC transaction/);
- assert.doesNotMatch(page,/five already-spendable XNO|5 USDC paid for bug fix|bank cash received/);
+ assert.match(page,/not a second paid bounty, a USDC receipt, a USD conversion or a bank payout/);
+ assert.doesNotMatch(page,/5 USDC paid for bug fix|bank cash received|zero available raw units|0 XNO spendable/);
+ assert.match(page,/offline signer backup remains <strong>unverified/);
 });
 test('engineer can reproduce actual unsafe race and guard decision without any wallet or RPC',()=>{
  for(const s of ['H</strong> is the old, dead process','B</strong> compares','C</strong>','read–compare–unlink',
@@ -75,8 +77,8 @@ test('paid-bounty case-study invites optional independently authorized buyer onl
 });
 test('actually promoted self-owned root is truthful and contains no false testimonials',()=>{
  assert.ok(root.includes('href="/case-studies/pursekeeper-nano-lock-bounty-5xno.html"'));
- assert.match(root,/5 XNO receivable \/ 0 XNO spendable/);
- assert.match(root,/not<\/em> a new USDC customer/);
+ assert.match(root,/5 XNO available \/ 0 XNO pending/);
+ assert.match(root,/not another award, a new USDC customer/);
  assert.match(root,/View independent sponsor's merged PR/);
  assert.doesNotMatch(root,/thousands of paying users|guaranteed security review|bank fiat received/);
 });
@@ -86,7 +88,7 @@ test('crawler sitemap links new original article exactly once and excludes sensi
  assert.ok(map.includes(title));
  assert.ok(bot.includes('Sitemap: https://livastic-vm1-primary.github.io/sitemap_index.xml'));
  assert.ok(llms.includes(title));
- assert.match(llms,/receivable not spendable/);
+ assert.match(llms,/5 XNO available/);
  for(const item of [page,root,map,llms]){
   assert.doesNotMatch(item,/privateSeed|privateKey|scrypt_password|keystore\.json|local-key|api_token|BEGIN PRIVATE KEY/);
  }
@@ -94,6 +96,8 @@ test('crawler sitemap links new original article exactly once and excludes sensi
 test('only this one original Nano grant is attributed in public, not doubled on a later receive',()=>{
  assert.equal((page.match(new RegExp(paymentHash,'g'))||[]).length,1);
  assert.match(page,/one completed paid bounty/);
- assert.match(page,/future recipient RECEIVE of this same hash|A future recipient RECEIVE of this <em>same hash<\/em>/);
- assert.doesNotMatch(page,/we have received 5 XNO into available balance|confirmed five spent Nano/);
+ assert.match(page,/recipient subsequently confirmed Nano receive|recipient published one genuine mainnet Nano/i);
+ assert.equal((page.match(new RegExp(receiveHash,'g'))||[]).length,1);
+ assert.match(page,/no SEND from this recipient wallet/);
+ assert.doesNotMatch(page,/5 USDC paid for bug fix|confirmed five spent Nano/);
 });

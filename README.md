@@ -54,7 +54,7 @@ USDC earnings or the profitability of an indicative pilot.
 5 XNO send](case-studies/pursekeeper-nano-lock-bounty-5xno.html):
 first-party merged pursekeeper/api PR #94, accepted sponsor source and exact
 ledger entry 441 on October 20, plus independent public Nano-block inspection.
-The recipient still had 5 XNO receivable but 0 XNO spendable when checked.
+Original recipient mainnet RECEIVE is now independently confirmed with 5 XNO available and zero pending on October 21, 2026. The initial pending snapshot was subsequently superseded; no second bounty, no separate USDC/fiat payment and no human-safeguarded offline wallet recovery backup are implied.
 This is ONE real independent software bounty and not a Koinly paid customer,
 five USDC, wallet RECEIVE, bank fiat payout, or guarantee of future work.
 A future reception of the same unique send is not a second new earning.
@@ -79,7 +79,7 @@ account or wallet.
 Our separately confirmed first-party Pages route
 /case-studies/pursekeeper-nano-lock-bounty-5xno.html documents
 Pursekeeper's one already booked independent Nano bounty (5 XNO confirmed
-sender block, receivable5/available0 at original check). New IndexNow
+sender and separate confirmed recipient RECEIVE blocks, 5 XNO available / 0 pending at the later October 21 mainnet check; old pending snapshot retained as history, not another award). New IndexNow
 submission should occur at most once and only after this root key actually
 appears at HTTP200 and with the genuine article URL at the official endpoint.
 Accepted URL submission is not a promise of Google indexing, Bing indexing,
